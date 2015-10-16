@@ -33,8 +33,9 @@ $rendered = $this->store->getTwig()->render('home.twig', $this->data);`
 - `CART` - [CART: src/Cart/Cart/Cart.php]
 - `IMG` - [CART: config2.example/0/image.yaml] конфиг размера изображений (например для передачи ширины и высоты картинки для аватара пишем просто IMG.avatar.0 и IMG.avatar.1 соответственно)
 - `DOCUMENT` - [CART: src/Cart/System/Document.php]
+- `ASSETS` - [HG: system/library/assets.php]
 
-##Использование языковых строк
+##Использование языковых строк (LANG)
 Если раньше в контроллере надо было подключать нужный файл
 `$this->load->language('path');`
 потом передавать переменные для каждой строки
@@ -47,6 +48,24 @@ $rendered = $this->store->getTwig()->render('home.twig', $this->data);`
  `{{ LANG.langstring }}`
  
 *Пока используем существующую структуру директории language, в дальнейшем планируем перейти к более струкрутированному виду, например один файл для всех кнопок, другой для всех табов, третий для сообщений об ошибках и т.д.*
+
+## Подключение модулей, css, js (ASSETS)
+Под модулем понимается набор css/js файлов, необходимых для определенной задачи. Для подключения внутри twig-шаблона используем следующую конструкцию:
+`{{ ASSETS.load('fancybox') }}`
+Можно указывать как один модуль, так и несколько:
+`{{ ASSETS.load(['fancybox', 'comments']) }}`
+
+Список этих модулей хранится в `[HG: system/library/assets.php]`
+
+Если нужно просто подключить css или js, используем:
+`{{ ASSETS.loadCSS('pathToFile.css') }}`
+`{{ ASSETS.loadJS('pathToFile.js') }}`
+Аналогично для нескольких файлов:
+`{{ ASSETS.loadCSS(['pathToFile1.css', 'pathToFile2.css']) }}`
+`{{ ASSETS.loadJS(['pathToFile1.js', 'pathToFile2.js']) }}`
+
+*Использовать эти ASSETS полезно, т.к. при рендере страницы будут загружены оптимизированные версии*
+
 
 ##Использование репозиториев
 Почти для всех сущностей в библиотеке есть соответствующие объекты (репозитории).
